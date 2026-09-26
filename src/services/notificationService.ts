@@ -4,7 +4,6 @@ import type { Product } from '../types';
 export interface NotificationChannelsConfig {
   inApp: boolean;
   email: boolean;
-  whatsapp: boolean;
   sms: boolean;
   phoneNumber?: string;
   emailAddress?: string;
@@ -22,18 +21,17 @@ export interface NotificationPreferences {
   triggers: NotificationTriggersConfig;
 }
 
-export interface WhatsAppNotificationPayload {
+export interface NotificationPayload {
   product: Product;
   previousPrice: number;
   currentPrice: number;
   targetPrice: number;
-  recipientPhone?: string;
   customNote?: string;
 }
 
 export interface DeliveryLog {
   id: string;
-  channel: 'in_app' | 'whatsapp' | 'email' | 'sms';
+  channel: 'in_app' | 'email' | 'sms';
   status: 'delivered' | 'simulated' | 'failed';
   title: string;
   message: string;
@@ -46,14 +44,13 @@ const deliveryLogs: DeliveryLog[] = [];
 
 /**
  * Modular Notification Service Architecture
- * Supports In-App, Email, SMS, and WhatsApp Business API.
+ * Supports In-App, Email, and SMS channels.
  */
 export const notificationService = {
   defaultPreferences: {
     channels: {
       inApp: true,
       email: true,
-      whatsapp: false,
       sms: false,
       phoneNumber: '+91 98765 43210',
       emailAddress: 'user@example.com'
@@ -67,79 +64,17 @@ export const notificationService = {
   } as NotificationPreferences,
 
   /**
-   * Formats the WhatsApp message template
-   */
-  formatWhatsAppMessage(payload: WhatsAppNotificationPayload): string {
-    const { product, previousPrice, currentPrice, targetPrice } = payload;
-    const savings = previousPrice - currentPrice;
-    const isTargetMet = currentPrice <= targetPrice;
-
-    return `🔥 *PRICE DROP ALERT — PricePulse*\n\n` +
-      `*${product.name}*\n` +
-      `₹${previousPrice.toLocaleString()} ➔ *₹${currentPrice.toLocaleString()}*\n` +
-      (savings > 0 ? `📉 You saved: *₹${savings.toLocaleString()}*\n` : '') +
-      `🎯 Your target: *₹${targetPrice.toLocaleString()}*\n\n` +
-      (isTargetMet ? `✅ *Target price reached!*\n\n` : `⏳ *Watching for deeper discounts*\n\n`) +
-      `🔗 View Product Deal:\n${product.url}`;
-  },
-
-  /**
-   * WhatsApp Delivery Channel
-   * Architecture ready for official WhatsApp Cloud API / Twilio / Gupshup backend proxy.
-   */
-  async sendWhatsAppNotification(payload: WhatsAppNotificationPayload): Promise<{ success: boolean; simulated: boolean; preview: string }> {
-    const formatted = this.formatWhatsAppMessage(payload);
-    
-    // Simulate network latency
-    await new Promise((resolve) => setTimeout(resolve, 600));
-
-    const log: DeliveryLog = {
-      id: `log-wa-${Date.now()}`,
-      channel: 'whatsapp',
-      status: 'simulated',
-      title: 'WhatsApp Price Alert',
-      message: `Dispatched to ${payload.recipientPhone || '+91 98765 43210'}`,
-      timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
-      formattedPreview: formatted
-    };
-    deliveryLogs.unshift(log);
-
-    // Also console log for developer visibility
-    console.log('[WhatsApp Notification Simulated]:', formatted);
-
-    return {
-      success: true,
-      simulated: true,
-      preview: formatted
-    };
-  },
-
-  /**
    * Unified Dispatch Engine
    */
   async dispatchEvent(
     _event: 'price_drop' | 'target_reached' | 'alternative_found',
-    payload: WhatsAppNotificationPayload,
+    payload: NotificationPayload,
     prefs?: NotificationPreferences
   ): Promise<DeliveryLog[]> {
     const activePrefs = prefs || this.defaultPreferences;
     const newLogs: DeliveryLog[] = [];
 
-    // 1. WhatsApp Channel
-    if (false && activePrefs.channels.whatsapp) {
-      const waResult = await this.sendWhatsAppNotification(payload);
-      newLogs.push({
-        id: `log-wa-${Date.now()}`,
-        channel: 'whatsapp',
-        status: 'simulated',
-        title: '💬 WhatsApp Alert',
-        message: `${payload.product.name} dropped to ₹${payload.currentPrice.toLocaleString()}`,
-        timestamp: 'Just now',
-        formattedPreview: waResult.preview
-      });
-    }
-
-    // 2. Email Channel (Simulated)
+    // 1. Email Channel (Simulated)
     if (activePrefs.channels.email) {
       newLogs.push({
         id: `log-em-${Date.now()}`,
@@ -151,7 +86,7 @@ export const notificationService = {
       });
     }
 
-    // 3. SMS Channel (Simulated)
+    // 2. SMS Channel (Simulated)
     if (activePrefs.channels.sms) {
       newLogs.push({
         id: `log-sms-${Date.now()}`,

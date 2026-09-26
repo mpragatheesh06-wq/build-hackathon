@@ -345,7 +345,7 @@ export default function AddProductModal({ isOpen, onClose, initialUrl = '' }: Ad
                           Notification Channel
                         </label>
                         <span className="text-[11px] text-emerald-700 font-bold bg-emerald-50 px-2 py-0.5 rounded-full border border-emerald-100">
-                          💬 WhatsApp + In-App Enabled
+                          📧 Email + In-App Enabled
                         </span>
                       </div>
                       <div className="grid grid-cols-2 gap-2">

@@ -113,7 +113,7 @@ export default function Home() {
           </h1>
 
           <p className="text-base sm:text-lg text-gray-600 max-w-2xl mx-auto mb-8 leading-relaxed">
-            Live product extraction via SerpApi, factual deal score analysis, and instant WhatsApp & in-app alerts whenever prices drop.
+            Live product extraction via SerpApi, factual deal score analysis, and instant email & in-app alerts whenever prices drop.
           </p>
 
           {/* Primary URL Input Widget */}
@@ -225,7 +225,7 @@ export default function Home() {
                     </span>
                     <span>•</span>
                     <span className="text-emerald-700 font-bold bg-emerald-50 px-2 py-0.5 rounded-md border border-emerald-100">
-                      WhatsApp Alerts Active
+                      Email Alerts Active
                     </span>
                   </div>
                 </div>

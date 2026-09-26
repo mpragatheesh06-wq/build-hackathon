@@ -427,7 +427,7 @@ export const PriceWatchProvider: React.FC<{ children: React.ReactNode }> = ({ ch
     };
     setNotifications((prev) => [notif, ...prev]);
 
-    // Dispatch external simulation (WhatsApp etc.)
+    // Dispatch external notification (email etc.)
     import('../services/notificationService').then(({ notificationService }) => {
       notificationService.dispatchEvent(isTargetHit ? 'target_reached' : 'price_drop', {
         product: {
