@@ -66,7 +66,7 @@ export default function NotificationSettingsModal({ isOpen, onClose }: { isOpen:
               <h3 className="text-lg font-bold text-gray-900 flex items-center gap-2">
                 Multi-Channel Alert Engine
                 <span className="text-[10px] bg-emerald-100 text-emerald-800 font-bold px-2 py-0.5 rounded-full uppercase">
-                  WhatsApp Enabled
+                  WhatsApp Disabled
                 </span>
               </h3>
               <p className="text-xs text-gray-500">

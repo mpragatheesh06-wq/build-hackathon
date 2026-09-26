@@ -53,7 +53,7 @@ export const notificationService = {
     channels: {
       inApp: true,
       email: true,
-      whatsapp: true,
+      whatsapp: false,
       sms: false,
       phoneNumber: '+91 98765 43210',
       emailAddress: 'user@example.com'
@@ -126,7 +126,7 @@ export const notificationService = {
     const newLogs: DeliveryLog[] = [];
 
     // 1. WhatsApp Channel
-    if (activePrefs.channels.whatsapp) {
+    if (false && activePrefs.channels.whatsapp) {
       const waResult = await this.sendWhatsAppNotification(payload);
       newLogs.push({
         id: `log-wa-${Date.now()}`,

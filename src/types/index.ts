@@ -26,6 +26,7 @@ export interface Product {
   savingsAmount?: number;
   source?: string;
   availability?: string;
+  userEmail?: string;
 }
 
 export interface PriceHistoryPoint {

@@ -89,15 +89,7 @@ export default function Navbar() {
               <span>Track Product</span>
             </button>
 
-            {/* WhatsApp Alerts Settings Button */}
-            <button
-              onClick={() => setIsSettingsOpen(true)}
-              className="hidden sm:flex items-center gap-1.5 px-3 py-1.5 bg-emerald-600 hover:bg-emerald-700 text-white rounded-xl text-xs font-bold shadow-xs transition cursor-pointer"
-              title="Configure WhatsApp & Multi-channel Price Alerts"
-            >
-              <span className="w-2 h-2 rounded-full bg-emerald-200 animate-pulse" />
-              <span>WhatsApp Alerts</span>
-            </button>
+
 
             {/* Notification Dropdown with unread badge */}
             <NotificationDropdown />

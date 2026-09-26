@@ -19,7 +19,7 @@ export default function AddProductModal({ isOpen, onClose, initialUrl = '' }: Ad
   const [analysisResult, setAnalysisResult] = useState<ProductAnalysisResult | null>(null);
   const [errorMsg, setErrorMsg] = useState<string | null>(null);
   const [targetPrice, setTargetPrice] = useState<string>('');
-  const [alertPref, setAlertPref] = useState<'any_drop' | 'target_reached'>('target_reached');
+  const [userEmail, setUserEmail] = useState<string>('');
 
   const asinDetection = extractAmazonProductId(url);
 
